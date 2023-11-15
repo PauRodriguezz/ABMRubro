@@ -18,9 +18,15 @@ export const RubroInsumoService = {
       },
       body: JSON.stringify(articuloRubro),
     });
-    const data= await response.json();
-    return data;
-  },
+    if (!response.ok) {
+      console.error('Error al crear el empleado:', response.statusText);
+      throw new Error('No se pudo crear el empleado');
+  }
+  
+  const data = await response.json();
+  console.log('Empleado creado con éxito:', data);
+  return data;
+},
 
   updateRubroInsumo: async ( id: number, articuloRubro: DTOInsumoRubro): Promise<DTOInsumoRubro> => {
     const response = await fetch(`${BASE_URL}/insumosConRubrosYEstados/${id}`, {
@@ -36,7 +42,21 @@ export const RubroInsumoService = {
 
   deleteRubroInsumo: async (id: number): Promise<void> => {
     await fetch(`${BASE_URL}/insumosConRubrosYEstados/${id}`, {
-      method: "DELETE"
-  });
-}
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+        
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('El empleado se eliminó correctamente');
+      } else {
+        console.error('No se pudo eliminar el empleado');
+      }
+    })
+    .catch(error => {
+      console.error('Error al realizar la solicitud DELETE', error);
+      });
+  }
 }

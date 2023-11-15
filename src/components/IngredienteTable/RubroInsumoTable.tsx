@@ -7,26 +7,28 @@ import { ModalType } from "../../types/ModalType";
 import { EditButton } from "../EditButton/EditButton";
 import { DeleteButton } from "../DeleteButton/DeleteButton";
 import RubroInsumoModal from "../IngredienteRubroModal/RubroInsumoModal";
+import { useNavigate } from 'react-router-dom';
 
 const RubroInsumoTable = () => {
-  const [rubroInsumos, setRubroInsumos] = useState<DTOInsumoRubro[]>([]);
+  const [InsumoRubro, setInsumoRubro] = useState<DTOInsumoRubro[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchRubroInsumos = async () => {
+    const fetchInsumoRubro = async () => {
       try {
-        const rubroInsumos = await RubroInsumoService.getRubroInsumos();
-        console.log("RubroInsumos:", rubroInsumos);
-        setRubroInsumos(rubroInsumos);
+        const InsumoRubro = await RubroInsumoService.getRubroInsumos();
+        console.log("RubroInsumos:", InsumoRubro);
+        setInsumoRubro(InsumoRubro);
         setIsLoading(false);
       } catch (error) {
         console.error(error);
       }
     };
-    fetchRubroInsumos();
+    fetchInsumoRubro();
   }, []);
 
-  const initializeNewRubroInsumo = (): DTOInsumoRubro => {
+  const initializeNewInsumoRubro= (): DTOInsumoRubro => {
     return {
       id: 0,
       insumoDenominacion: "",
@@ -37,8 +39,8 @@ const RubroInsumoTable = () => {
   };
   
 
-  const [selectedRubroInsumo, setSelectedRubroInsumo] = useState<DTOInsumoRubro>(
-    initializeNewRubroInsumo()
+  const [selectedInsumoRubro, setSelectedInsumoRubro] = useState<DTOInsumoRubro>(
+    initializeNewInsumoRubro()
   );
 
   const [showModal, setShowModal] = useState(false);
@@ -48,15 +50,15 @@ const RubroInsumoTable = () => {
   const handleClick = (newTitle: string, rubro: DTOInsumoRubro, modal: ModalType) => {
     setTitle(newTitle);
     setModalType(modal);
-    setSelectedRubroInsumo(rubro);
+    setSelectedInsumoRubro(rubro);
     setShowModal(true);
   };
 
-  const handleDeleteRubroInsumo = async (rubroInsumo: DTOInsumoRubro) => {
+  const handleDeleteInsumoRubro = async (rubroInsumo: DTOInsumoRubro) => {
     try {
       await RubroInsumoService.deleteRubroInsumo(rubroInsumo.id);
-      const updatedRubroInsumos = rubroInsumos.filter((r) => r.id !== rubroInsumo.id);
-      setRubroInsumos(updatedRubroInsumos);
+      const updatedRubroInsumos = InsumoRubro.filter((r) => r.id !== rubroInsumo.id);
+      setInsumoRubro(updatedRubroInsumos);
     } catch (error) {
       console.error(error);
     }
@@ -65,10 +67,10 @@ const RubroInsumoTable = () => {
 
   const handleUpdateRubroInsumo = (updatedRubroInsumo: DTOInsumoRubro) => {
     try {
-      const updatedRubroInsumos = rubroInsumos.map((r) =>
+      const updatedRubroInsumos = InsumoRubro.map((r) =>
         r.id === updatedRubroInsumo.id ? updatedRubroInsumo : r
       );
-      setRubroInsumos(updatedRubroInsumos);
+      setInsumoRubro(updatedRubroInsumos);
     } catch (error) {
       console.error(error);
     }
@@ -80,7 +82,7 @@ const RubroInsumoTable = () => {
     <div className="container">
       <div className="row">
         <div className="col-3">
-          <Button variant="warning">
+          <Button onClick={() => navigate('/')} variant="warning" >
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" className="me-2">
               <path d="M11.5998 21.6673C16.9385 21.6673 21.2664 17.3394 21.2664 12.0007C21.2664 6.6619 16.9385 2.33398 11.5998 2.33398C6.26102 2.33398 1.93311 6.6619 1.93311 12.0007C1.93311 17.3394 6.26102 21.6673 11.5998 21.6673Z" stroke="white" strokeWidth="1.45" />
               <path d="M15.4667 11.9996H7.7334M7.7334 11.9996L10.6334 9.09961M7.7334 11.9996L10.6334 14.8996" stroke="white" strokeWidth="1.45" strokeLinecap="round" strokeLinejoin="round" />
@@ -98,7 +100,7 @@ const RubroInsumoTable = () => {
     <div className="container">
       <div className="row">
         <div className="col-3">
-          <Button variant="success" className="mt-4" onClick={() => handleClick("Nuevo Producto", initializeNewRubroInsumo(), ModalType.CREATE)}>
+          <Button variant="success" className="mt-4" onClick={() => handleClick("Nuevo Producto", initializeNewInsumoRubro(), ModalType.CREATE)}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 49 49" fill="none" className="me-2">
                     <path d="M44.9167 24.5002C44.9167 28.5382 43.7193 32.4855 41.4759 35.8431C39.2325 39.2006 36.0438 41.8174 32.3131 43.3627C28.5826 44.9081 24.4774 45.3123 20.517 44.5246C16.5565 43.7367 12.9186 41.7923 10.0633 38.937C7.20797 36.0815 5.26347 32.4437 4.47569 28.4833C3.68789 24.5228 4.09223 20.4176 5.6375 16.6871C7.1828 12.9564 9.79966 9.76774 13.1572 7.52432C16.5147 5.28091 20.462 4.0835 24.5001 4.0835" stroke="white" stroke-width="3.0625" stroke-linecap="round"/>
                     <path d="M30.625 24.5H24.5M24.5 24.5H18.375M24.5 24.5V18.375M24.5 24.5V30.625" stroke="white" stroke-width="3.0625" stroke-linecap="round"/>
@@ -132,7 +134,7 @@ const RubroInsumoTable = () => {
             </tr>
           </thead>
           <tbody>
-            {rubroInsumos.map((rubroInsumo) => (
+            {InsumoRubro.map((rubroInsumo) => (
               <tr key={rubroInsumo.id}>
                 <td>{rubroInsumo.insumoDenominacion}</td>
                 <td>{rubroInsumo.rubroDenominacion}</td>
@@ -164,8 +166,8 @@ const RubroInsumoTable = () => {
           onHide={() => setShowModal(false)}
           title={title}
           modalType={modalType}
-          rubroInsumo={selectedRubroInsumo}
-          onDelete={handleDeleteRubroInsumo}
+          rubroInsumo={selectedInsumoRubro}
+          onDelete={handleDeleteInsumoRubro}
           onSaveUpdate={handleUpdateRubroInsumo}
         />
       )}

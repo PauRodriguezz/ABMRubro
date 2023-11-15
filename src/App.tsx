@@ -20,7 +20,7 @@ function App() {
             <Suspense fallback={<Loader/>}>
               <AppRoutes/>
             </Suspense>
-          </Container>
+      </Container>
       <Footer/>
     </Router>
     </>

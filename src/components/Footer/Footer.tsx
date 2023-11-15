@@ -80,7 +80,7 @@ const Footer = () => {
               <img src="src/assets/images/MetodoPago3.svg" alt="mercadoPago" />
             </li>
             <li>
-              <img src="src/assets/Componentes/copyright.png" alt="" />
+              <img src="src/assets/images/copyright.png" alt="" />
             </li>
           </ul>
         </nav>
