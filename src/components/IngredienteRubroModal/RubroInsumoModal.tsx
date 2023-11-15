@@ -25,10 +25,19 @@ const RubroInsumoModal: React.FC<RubroInsumoModalProps> = ({
   onDelete,
   onSaveUpdate,
 }: RubroInsumoModalProps) => {
-  const handleSaveUpdate = async (rubro: DTOInsumoRubro) => {
+
+
+  const validationSchema = Yup.object().shape({
+    id: Yup.number().integer().min(0),
+    insumoDenominacion: Yup.string().required('La denominación de insumo es requerida'),
+    rubroDenominacion: Yup.string().required('La denominación de rubro es requerida'),
+    rubroPadreDenominacion: Yup.string().required('La denominación del rubro padre es requerida'),
+    rubroEstado: Yup.string().required('El estado del rubro es requerido'),
+  });
+  const handleSaveUpdate = async (rubroInsumo: DTOInsumoRubro) => {
     try {
-      const isNew = rubro.id === 0;
-      await onSaveUpdate(rubro);
+      const isNew = rubroInsumo.id === 0;
+      await onSaveUpdate(rubroInsumo);
       toast.success(isNew ? 'Rubro de Insumo Creado' : 'Rubro de Insumo Actualizado', {
         position: 'top-center',
       });
@@ -50,15 +59,6 @@ const RubroInsumoModal: React.FC<RubroInsumoModalProps> = ({
       console.error('Ha ocurrido un Error');
     }
   };
-
-  const validationSchema = Yup.object().shape({
-    id: Yup.number().integer().min(0),
-    insumoDenominacion: Yup.string().required('La denominación de insumo es requerida'),
-    rubroDenominacion: Yup.string().required('La denominación de rubro es requerida'),
-    rubroPadreDenominacion: Yup.string().required('La denominación del rubro padre es requerida'),
-    rubroEstado: Yup.string().required('El estado del rubro es requerido'),
-  });
-
   const formik = useFormik({
     initialValues: rubroInsumo,
     validationSchema: validationSchema,

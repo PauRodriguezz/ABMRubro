@@ -134,23 +134,23 @@ const RubroInsumoTable = () => {
             </tr>
           </thead>
           <tbody>
-            {InsumoRubro.map((rubroInsumo) => (
-              <tr key={rubroInsumo.id}>
-                <td>{rubroInsumo.insumoDenominacion}</td>
-                <td>{rubroInsumo.rubroDenominacion}</td>
-                <td>{rubroInsumo.rubroPadreDenominacion}</td>
-                <td>{rubroInsumo.rubroEstado}</td>
+            {InsumoRubro.map((InsumoRubro) => (
+              <tr key={InsumoRubro.id}>
+                <td>{InsumoRubro.insumoDenominacion}</td>
+                <td>{InsumoRubro.rubroDenominacion}</td>
+                <td>{InsumoRubro.rubroPadreDenominacion}</td>
+                <td>{InsumoRubro.rubroEstado}</td>
                 <td>
                   <EditButton
                     onClick={() =>
-                      handleClick("Editar Rubro Insumo", rubroInsumo, ModalType.UPDATE)
+                      handleClick("Editar Rubro Insumo", InsumoRubro, ModalType.UPDATE)
                     }
                   />
                 </td>
                 <td>
                   <DeleteButton
                     onClick={() =>
-                      handleClick("Borrar Rubro Insumo", rubroInsumo, ModalType.DELETE)
+                      handleClick("Borrar Rubro Insumo", InsumoRubro, ModalType.DELETE)
                     }
                   />
                 </td>
