@@ -1,9 +1,11 @@
+
 import RubroInsumoTable from "../components/IngredienteTable/RubroInsumoTable"
 
 const RubroInsumo = () => {
     return (
       <>
-         <RubroInsumoTable/>
+       
+        <RubroInsumoTable/>
       </>
     )
   }
